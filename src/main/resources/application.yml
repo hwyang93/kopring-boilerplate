@@ -1,0 +1,47 @@
+spring:
+  datasource:
+    havit:
+      jdbc-url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:3306/havit?characterEncoding=UTF-8&serverTimezone=UTC
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: ${MYSQL_USER:root}
+      password: ${MYSQL_PASSWORD:admin123!}
+    dormant:
+      jdbc-url: jdbc:mysql://${MYSQL_DORMANT_HOST:127.0.0.1}:3306/havit_dormant?characterEncoding=UTF-8&serverTimezone=UTC
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: ${MYSQL_DORMANT_USER:root}
+      password: ${MYSQL_DORMANT_PASSWORD:admin123!}
+  devtools:
+    livereload:
+      enabled: true
+  data:
+    redis:
+      host: ${REDIS_HOST:redis://127.0.0.1}
+      port: 6379
+  task:
+    execution:
+      pool:
+        core-size: 5
+        max-size: 10
+
+
+server:
+  port: 8080
+
+jwt:
+  secret: django-insecure-fjwtozh^lnufxaqrsb@peur%n*ukrpcnovvokmv%mb0^(_+i#j
+  expiration: 86400000 # 24 hours
+
+springdoc:
+  swagger-ui:
+    path: /swagger
+    disable-swagger-default-url: true
+
+logging:
+  request:
+    max-body-length: 50000
+    sensitive-headers: HTTP_AUTHORIZATION,HTTP_PROXY_AUTHORIZATION
+    log-level: INFO
+    http-4xx-log-level: ERROR
+  level:
+    com.havit: DEBUG
+    org.springframework.web: INFO
