@@ -7,7 +7,7 @@ import java.time.Instant
 
 @Entity
 @Table(
-    name = "firebase_identities", schema = "havit", indexes = [
+    name = "firebase_identities", schema = "first", indexes = [
         Index(name = "firebase_identities_uid_94c6b3bf", columnList = "uid"),
         Index(name = "firebase_id_member__54d3d3_idx", columnList = "member_id, deleted_at")
     ]

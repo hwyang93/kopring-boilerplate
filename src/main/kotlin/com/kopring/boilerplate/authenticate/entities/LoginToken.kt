@@ -7,7 +7,7 @@ import java.time.Instant
 
 @Entity
 @Table(
-    name = "login_tokens", schema = "havit", indexes = [
+    name = "login_tokens", schema = "first", indexes = [
         Index(name = "login_tokens_access_token_afd29965", columnList = "access_token"),
         Index(name = "login_tokens_refresh_token_e79fbddb", columnList = "refresh_token")
     ]

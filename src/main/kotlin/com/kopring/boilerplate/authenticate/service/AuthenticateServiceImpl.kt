@@ -9,7 +9,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition
 
 @Service
 class AuthenticateServiceImpl (private val authenticateRepository: AuthenticateRepositoryImpl,
-                               private val compositeTransactionManager: CompositeTransactionManager, private val havitTransactionManager: PlatformTransactionManager
+                               private val compositeTransactionManager: CompositeTransactionManager, private val firstDBTransactionManager: PlatformTransactionManager
 ) : AuthenticateService {
 
     override fun getLoginTokenByAccessToken(accessToken: String): LoginToken? {

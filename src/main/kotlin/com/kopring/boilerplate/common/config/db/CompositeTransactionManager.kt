@@ -6,20 +6,20 @@ import org.springframework.transaction.TransactionManager
 import org.springframework.transaction.PlatformTransactionManager
 
 class CompositeTransactionManager(
-    private val havitTransactionManager: PlatformTransactionManager,
-    private val dormantTransactionManager: PlatformTransactionManager
+    private val firstDBTransactionManager: PlatformTransactionManager,
+    private val secondDBTransactionManager: PlatformTransactionManager
 ) : TransactionManager {
     fun getTransaction(definition: TransactionDefinition?): TransactionStatus {
-        val havitStatus = havitTransactionManager.getTransaction(definition)
-        val dormantStatus = dormantTransactionManager.getTransaction(definition)
-        return CompositeTransactionStatus(havitStatus, dormantStatus)
+        val firstDBStatus = firstDBTransactionManager.getTransaction(definition)
+        val secondDBStatus = secondDBTransactionManager.getTransaction(definition)
+        return CompositeTransactionStatus(firstDBStatus, secondDBStatus)
     }
 
     fun commit(status: TransactionStatus) {
         val compositeStatus = status as CompositeTransactionStatus
         try {
-            havitTransactionManager.commit(compositeStatus.havitStatus)
-            dormantTransactionManager.commit(compositeStatus.dormantStatus)
+            firstDBTransactionManager.commit(compositeStatus.firstDBStatus)
+            secondDBTransactionManager.commit(compositeStatus.secondDBStatus)
         } catch (ex: Exception) {
             rollback(status)
             throw ex
@@ -29,15 +29,15 @@ class CompositeTransactionManager(
     fun rollback(status: TransactionStatus) {
         val compositeStatus = status as CompositeTransactionStatus
         try {
-            havitTransactionManager.rollback(compositeStatus.havitStatus)
+            firstDBTransactionManager.rollback(compositeStatus.firstDBStatus)
         } finally {
-            dormantTransactionManager.rollback(compositeStatus.dormantStatus)
+            secondDBTransactionManager.rollback(compositeStatus.secondDBStatus)
         }
     }
 
     private class CompositeTransactionStatus(
-        val havitStatus: TransactionStatus,
-        val dormantStatus: TransactionStatus
+        val firstDBStatus: TransactionStatus,
+        val secondDBStatus: TransactionStatus
     ) : TransactionStatus {
         override fun createSavepoint(): Any {
             throw UnsupportedOperationException("Savepoint is not supported in CompositeTransactionStatus")

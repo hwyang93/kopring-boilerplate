@@ -14,37 +14,37 @@ import javax.sql.DataSource
 class DataSourceConfig {
     @Primary
     @Bean
-    @ConfigurationProperties(prefix = "spring.datasource.havit")
-    fun havitDataSource(): DataSource {
+    @ConfigurationProperties(prefix = "spring.datasource.first")
+    fun firstDataSource(): DataSource {
         return DataSourceBuilder.create().build()
     }
 
     @Bean
-    @ConfigurationProperties(prefix = "spring.datasource.dormant")
-    fun dormantDataSource(): DataSource {
+    @ConfigurationProperties(prefix = "spring.datasource.second")
+    fun secondDataSource(): DataSource {
         return DataSourceBuilder.create().build()
     }
 
     @Primary
     @Bean
-    fun havitTransactionManager(
-        @Qualifier("havitDataSource") dataSource: DataSource
+    fun firstDBTransactionManager(
+        @Qualifier("firstDataSource") dataSource: DataSource
     ): PlatformTransactionManager {
         return DataSourceTransactionManager(dataSource)
     }
 
     @Bean
-    fun dormantTransactionManager(
-        @Qualifier("dormantDataSource") dataSource: DataSource
+    fun secondDBTransactionManager(
+        @Qualifier("secondDataSource") dataSource: DataSource
     ): PlatformTransactionManager {
         return DataSourceTransactionManager(dataSource)
     }
 
     @Bean
     fun compositeTransactionManager(
-        @Qualifier("havitTransactionManager") havitTransactionManager: PlatformTransactionManager,
-        @Qualifier("dormantTransactionManager") dormantTransactionManager: PlatformTransactionManager
+        @Qualifier("firstDBTransactionManager") firstTransactionManager: PlatformTransactionManager,
+        @Qualifier("secondDBTransactionManager") secondTransactionManager: PlatformTransactionManager
     ): CompositeTransactionManager {
-        return CompositeTransactionManager(havitTransactionManager, dormantTransactionManager)
+        return CompositeTransactionManager(firstTransactionManager, secondTransactionManager)
     }
 }

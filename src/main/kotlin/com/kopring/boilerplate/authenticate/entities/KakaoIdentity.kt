@@ -6,7 +6,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(
-    name = "kakao_identities", schema = "havit", indexes = [
+    name = "kakao_identities", schema = "first", indexes = [
         Index(name = "kakao_identities_user_id_2b27300a", columnList = "user_id"),
         Index(name = "kakao_ident_member__54cbac_idx", columnList = "member_id, deleted_at")
     ]

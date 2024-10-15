@@ -13,7 +13,7 @@ import org.springframework.web.servlet.HandlerInterceptor
 import java.lang.reflect.Member
 
 @Component
-class HavitInterceptor(private val jwtUtil: JwtUtil, private val authenticateService: AuthenticateService) : HandlerInterceptor {
+class AuthInterceptor(private val jwtUtil: JwtUtil, private val authenticateService: AuthenticateService) : HandlerInterceptor {
     var member: Member? = null
     var ip: String? = null
     var userAgent: String? = null

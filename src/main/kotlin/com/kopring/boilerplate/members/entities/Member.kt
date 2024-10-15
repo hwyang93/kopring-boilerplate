@@ -5,7 +5,7 @@ import java.time.Instant
 
 @Entity
 @Table(
-    name = "members", schema = "havit", indexes = [
+    name = "members", schema = "first", indexes = [
         Index(name = "members_uuid_5a8dae_idx", columnList = "uuid"),
         Index(name = "members_device_id_d01535db", columnList = "device_id")
     ], uniqueConstraints = [
